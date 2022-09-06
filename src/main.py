@@ -32,7 +32,6 @@ def cities_list(q: str = Query(description="Название города", defa
     """
     cities = Session().query(City)
     if q is not None:
-        print('да')
         cities = cities.filter(City.name == q)
 
     return [{'id': city.id, 'name': city.name, 'weather': city.weather} for city in cities]
