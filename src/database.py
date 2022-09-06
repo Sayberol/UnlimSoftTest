@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from external_requests import GetWeatherRequest
 
 # Создание сессии
-SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+SQLALCHEMY_DATABASE_URI = "postgresql://postgres:password@postgres:5432/testcrt"
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
