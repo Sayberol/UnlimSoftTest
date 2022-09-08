@@ -80,7 +80,7 @@ def all_picnics(datetime: dt.datetime = Query(default=None, description='Вре�
 
     return [{
         'id': pic.id,
-        'city': Session().query(City).filter(City.id == pic.id).first().name,
+        'city': Session().query(City).filter(City.id == pic.city_id).first().name,
         'time': pic.time,
         'users': [
             {
@@ -95,24 +95,34 @@ def all_picnics(datetime: dt.datetime = Query(default=None, description='Вре�
 
 @app.get('/picnic-add/', summary='Picnic Add', tags=['picnic'])
 def picnic_add(city_id: int = None, datetime: dt.datetime = None):
-    p = Picnic(city_id=city_id, time=datetime)
-    s = Session()
-    s.add(p)
-    s.commit()
+    if city_id and datetime is not None:
+        p = Picnic(city_id=city_id, time=datetime)
+        s = Session()
+        s.add(p)
+        s.commit()
 
-    return {
-        'id': p.id,
-        'city': Session().query(City).filter(City.id == p.id).first().name,
-        'time': p.time,
-    }
+        return {
+            'id': p.id,
+            'city': Session().query(City).filter(City.id == city_id).first().name,
+            'time': p.time,
+        }
 
 
 @app.get('/picnic-register/', summary='Picnic Registration', tags=['picnic'])
-def register_to_picnic(*_, **__,):
+def register_to_picnic(picnic_id: int = None, user_id: int = None,):
     """
     Регистрация пользователя на пикник
     (Этот эндпойнт необходимо реализовать в процессе выполнения тестового задания)
     """
-    # TODO: Сделать логику
-    return ...
+    if picnic_id and user_id is not None:
+        p = PicnicRegistration(picnic_id=picnic_id, user_id=user_id)
+        s = Session()
+        s.add(p)
+        s.commit()
+        return {
+                'registration_id': p.user.id,
+                'name': p.user.name,
+                'picnic_id': p.picnic.id,
+                'time': p.picnic.time,
+                }
 
