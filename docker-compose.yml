@@ -16,7 +16,7 @@ services:
       - DATABASE_PASSWORD=password
     command: "uvicorn main:app --host 0.0.0.0 --port 8000"
     ports:
-    - 8001:8000
+    - 8002:8000
     networks:
       backend:
 
