@@ -70,7 +70,10 @@ def register_user(user: RegisterUserRequest):
 def all_picnics(datetime: dt.datetime = Query(default=None, description='Время пикника (по умолчанию не задано)'),
                 past: bool = Query(default=True, description='Включая уже прошедшие пикники')):
     """
-    Список всех пикников
+    Список всех пикников.
+
+    :param datetime: Дата и время в формате YYYY-DD-MMTHH:MM:SS\n
+    :param past: True or False
     """
     picnics = Session().query(Picnic)
     if datetime is not None:
@@ -95,6 +98,12 @@ def all_picnics(datetime: dt.datetime = Query(default=None, description='Вре�
 
 @app.get('/picnic-add/', summary='Picnic Add', tags=['picnic'])
 def picnic_add(city_id: int = None, datetime: dt.datetime = None):
+    """
+    Добавить пикник.
+
+    :param city_id: ID города в базе данных\n
+    :param datetime: Дата и время в формате YYYY-DD-MMTHH:MM:SS
+    """
     if city_id and datetime is not None:
         p = Picnic(city_id=city_id, time=datetime)
         s = Session()
@@ -111,8 +120,10 @@ def picnic_add(city_id: int = None, datetime: dt.datetime = None):
 @app.get('/picnic-register/', summary='Picnic Registration', tags=['picnic'])
 def register_to_picnic(picnic_id: int = None, user_id: int = None,):
     """
-    Регистрация пользователя на пикник
-    (Этот эндпойнт необходимо реализовать в процессе выполнения тестового задания)
+    Регистрация пользователя на пикник.
+
+    :param picnic_id: ID пикника\n
+    :param user_id: ID пользователя
     """
     if picnic_id and user_id is not None:
         p = PicnicRegistration(picnic_id=picnic_id, user_id=user_id)
